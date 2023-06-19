@@ -5,12 +5,12 @@
 #source_img_url="$latest_download_url"
 # The latest one might not be compatible with s905x3!
 
-version="20.0-Nexus"
+version="20.1-Nexus"
 source_img_name="CoreELEC-Amlogic-ng.arm-${version}-Generic"
 source_img_file="${source_img_name}.img.gz"
 source_img_url="https://github.com/CoreELEC/CoreELEC/releases/download/${version}/${source_img_name}.img.gz"
 target_img_prefix="CoreELEC-Amlogic-ng.arm-${version}"
-target_img_name="${target_img_prefix}-CM311-1a-$(date +%Y.%m.%d)"
+target_img_name="${target_img_prefix}-S905l3a-$(date +%Y.%m.%d)"
 mount_point="target"
 common_files="common-files"
 system_root="SYSTEM-root"
@@ -21,7 +21,7 @@ config_path="${system_root}/usr/config"
 firmware_path="${system_root}/usr/lib/kernel-overlays/base/lib/firmware"
 kodi_userdata="${mount_point}/.kodi/userdata"
 
-echo "Welcome to build CoreELEC for CM311-1a!"
+echo "Welcome to build CoreELEC for S905l3a!"
 echo "Downloading CoreELEC-${version} generic image"
 wget -q ${source_img_url} -O ${source_img_file} | exit 1
 echo "Decompressing CoreELEC image"
@@ -33,8 +33,8 @@ echo "Mounting CoreELEC boot partition"
 offset=$(($(fdisk -l -o start ${source_img_name}.img|grep -v "[a-zA-Z]"|grep -v "^$"|head -n1)*512))
 sudo mount -o loop,offset=${offset} ${source_img_name}.img ${mount_point}
 
-echo "Copying CM311-1a DTB file"
-sudo cp ${common_files}/cm311-1a.dtb ${mount_point}/dtb.img
+echo "Copying S905l3a DTB file"
+sudo cp ${common_files}/e900v22c.dtb ${mount_point}/dtb.img
 
 echo "Decompressing SYSTEM image"
 sudo unsquashfs -d ${system_root} ${mount_point}/SYSTEM
